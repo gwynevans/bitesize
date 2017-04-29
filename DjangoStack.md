@@ -12,8 +12,8 @@
    - Combines Nginx, Gunicorn, virtualenv, supervisord and PostgreSQL into a Django server running on Linux
 * https://github.com/jcalazan/ansible-django-stack
    * Ansible Playbook based on the above for setting up a Django app with Nginx, Gunicorn, PostgreSQL, Celery, RabbitMQ, Supervisor, Virtualenv, and Memcached. A Vagrantfile for provisioning a VirtualBox virtual machine is included as well.
-   * Needed to ensure was running latest pip
-   * Needed to manually install nginx in vagrant vm when ansible failed
+       * Needed to ensure was running latest pip
+      * Needed to manually install nginx in vagrant vm when ansible failed
 * https://github.com/postrational/hello_django  
    - Simple Django project for demo purposes
 
