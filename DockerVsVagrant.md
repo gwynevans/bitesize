@@ -5,10 +5,10 @@
 ##  Vagrant
 Vagrant is a tool focused on providing a consistent development environment workflow across multiple operation systems. 
 
-##Docker
+## Docker
 Docker is a container management that can consistently run software as long as a containerization system exists.
 
-##Meaning...
+## Meaning...
 They solve two different problems. Vagrant provisions hosts on which to run things, whether it be a local vm or a remote host. Docker creates containers on a host, but doesn't provision hosts. Docker is an application that runs things (containers) and exposes them on a network, whether it is on one or many hosts.
 
 * http://stackoverflow.com/questions/16647069/should-i-use-vagrant-or-docker-for-creating-an-isolated-environment
