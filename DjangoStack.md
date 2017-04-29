@@ -7,7 +7,7 @@
 
 * [Custom Vagrant box for jump-starting Django projects using Cookiecutter](http://kappataumu.com/articles/vagrant-box-django-cookiecutter-quickstart.html)
 
---
+---
 
 * [Setting up Django with Nginx, Gunicorn, virtualenv, supervisor and PostgreSQL](http://michal.karzynski.pl/blog/2013/06/09/django-nginx-gunicorn-virtuale)
  - Combines Nginx, Gunicorn, virtualenv, supervisord and PostgreSQL into a Django server running on Linux
