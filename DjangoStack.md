@@ -21,6 +21,6 @@
    - Simple Django project for demo purposes
 
 ## Plans
-1. - Vagrant VM provisioned manually via ssh
-2. - Vagrant VM provisioned via shell
-3. - Vagrant VM provisioned via Ansible
+1. Vagrant VM provisioned manually via ssh
+2. Vagrant VM provisioned via shell
+3. Vagrant VM provisioned via Ansible
