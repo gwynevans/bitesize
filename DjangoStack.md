@@ -21,3 +21,5 @@
 1. Vagrant VM provisioned manually via ssh
 2. Vagrant VM provisioned via shell
 3. Vagrant VM provisioned via Ansible
+
+* Try [Provisioning Azure boxes with Vagrant](https://unindented.org/articles/provision-azure-boxes-with-vagrant/)
