@@ -1,13 +1,15 @@
 [Index](./)
 ---
 # Django Stack
+I've created a [django-deploy](https://github.com/gwynevans/django-deploy) repo with branches containing 'jump-starts' for the following scenarios:
+1. Vagrant VM provisioned manually via ssh
+2. Vagrant VM provisioned via shell
+3. Vagrant VM provisioned via Ansible
+All end up with a VM running Nginx, Gunicorn, Django under Python3 in a Virtualenv, Supervisor and PostgreSQL.
 
- 
+## References
 * [Provisioning django application using ansible](https://krzysztofzuraw.com/blog/2017/provisioning-django-application-ansible.html)
 * [Custom Vagrant box for jump-starting Django projects using Cookiecutter](http://kappataumu.com/articles/vagrant-box-django-cookiecutter-quickstart.html)
-
----
-
 * [Setting up Django with Nginx, Gunicorn, virtualenv, supervisor and PostgreSQL](http://michal.karzynski.pl/blog/2013/06/09/django-nginx-gunicorn-virtuale)
    - Combines Nginx, Gunicorn, virtualenv, supervisord and PostgreSQL into a Django server running on Linux
 * https://github.com/jcalazan/ansible-django-stack
@@ -17,9 +19,5 @@
 * https://github.com/postrational/hello_django  
    - Simple Django project for demo purposes
 
-## Plans
-1. Vagrant VM provisioned manually via ssh
-2. Vagrant VM provisioned via shell
-3. Vagrant VM provisioned via Ansible
-
-* Try [Provisioning Azure boxes with Vagrant](https://unindented.org/articles/provision-azure-boxes-with-vagrant/)
+## Plans/TODOs
+* [Provisioning Azure boxes with Vagrant](https://unindented.org/articles/provision-azure-boxes-with-vagrant/)
