@@ -296,10 +296,21 @@ level13@nebula:~$ LD_PRELOAD=$PWD/getuid.so strace -c ../flag13/flag13 2>/dev/nu
 your token is b705702b-76a8-42b0-8844-3adabbe5ac58
 ```
 
-## nn
-```console
-
+## 14 
+The trick here is in noticing that the encryption utility is transforming the input by adding the index of the input character's position to the input character in order to generate the output.  e.g. 'AAAAAAAAAA' becomes 'ABCDEFGHI' and '11111111' becomes '12345678'.  After that, a couple of lines of Python can decrypt the token to reveal the flag14 password.
+```python
+# Encrypted by adding the index of the char to the plaintext
+cyphertext = "857:g67?5ABBo:BtDA?tIvLDKL{MQPSRQWW"
+plaintext = []
+for i, c in enumerate(cyphertext):
+    plaintext.append(chr(ord(c) - i))
+print "Plaintext:", "".join(plaintext)
 ```
+```console
+python decrypt.py
+Plaintext: 8457c118-887c-4e40-a5a6-33a25353165
+```
+
 
 ## nn
 ```console
