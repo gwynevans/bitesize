@@ -2,7 +2,13 @@
 
 ## Tools
 
-Hex Editor - <https://hexed.it/> - A JavaScript, Client-side Hex Editor that runs in your browser.
+* `HexEd.it` - <https://hexed.it/> - A JavaScript, Client-side Hex Editor that runs in your browser.
+* GDB extensions
+	* `GEF` - <http://gef.rtfd.io> - GDB Enhanced Features for exploit devs & reversers (Good Docs),  
+	or
+	* `pwndbg` - <http://pwndbg.com> - Exploit Development and Reverse Engineering with GDB Made Easy 
+* `pwntools` - <http://pwntools.com> - CTF framework and exploit development library in Python
+
 
 ## CTFs
 
