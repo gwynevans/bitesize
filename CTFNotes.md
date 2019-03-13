@@ -14,9 +14,9 @@
 
 * [PicoCTF 2018](https://2018game.picoctf.com/problems) (Designed for high school students but open to non-students for practicing)  
 \- Current score of 4885 with all but 4 before `"now you don't"` completed.
-* [Pwnable.tw](http://pwnable.tw/) (Squares)  
+* [Pwnable.tw](http://pwnable.tw/) (Squares) 
 \- Account created but nothing done yet
-* [Pwnable.kr](http://pwnable.kr/) (Pictures)  
+* [Pwnable.kr](http://pwnable.kr/) (Pictures) - [Notes/Reminders](CTF/PwnableKr.md)   
 \- Account created but only 6 challenges completed as yet
 \- Four categories of challenges
     1. [Toddler's Bottle]  -  very easy challenges with simple mistakes.
