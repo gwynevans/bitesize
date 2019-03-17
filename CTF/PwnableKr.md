@@ -35,3 +35,36 @@ You need to overflow the buffer and change the 'key' value that's further up the
 `(python -c "print 32*'A'+'\xbe\xba\xfe\xca'*6";cat) | nc pwnable.kr 9000`  
 
 (I really should take some time to have a look at [pwntools](http://pwntools.com) rather than doing this all manually! :-))
+
+### [flag]
+
+Download the binary from `http://pwnable.kr/bin/flag`
+
+The hint says that it's packed, and `strings` and `hexdump -C n 512` show the string "UPX" suggesting it's UPX-packed, so the quick approach is to download "upx" and try and decompress it with the tool via `upx -d`.
+(Of course, that's after I started decompiling it to run the decompresser prelude, until I realised I was doing that the hard way...).  Once decompressed, either 'strings -n 20' or disassembing and looking at the text at the address in the 'flag' symbol will give the result.
+
+### [passcode]
+
+Done, but not written up yet
+
+### [random]
+
+Done, but not written up yet
+
+### [input]
+
+`ssh input2@pwnable.kr -p2222`
+
+The challenge here is to run a program `input`, passing it various inputs in various manners.  Nominally striaghtforward, but I spent way more time on this than I'd have liked, getting caught up on various things.
+
+Basic requirements are to run the program:
+
+1. Passing it 100 arguments, with 2 particualr args set to particular values
+2. Arrange things such that it can read particular series of bytes from fd's 0 & 2
+3. Arrange it such that it has an environment value set to a particular value
+4. Arrange it such that it reads a particular set of bytes from a named file
+5. Arrange it such that it opens and receives a particular set of byes via a network connection to a socket it's listening on
+
+Started off trying an approach using the Python `subprocess` module, which failed at stage 2, where I wasn't able to write to the subprocesses sterr, so switched to C, using fork/exec (then execve).  Hit a few issues working out what was going on, as I thought I was having network problems but it turned out that my actual issue was with the permissions of the file, so the subprocess was terminating earlier than I was expecting...
+Particular issues were that this worked happily enough on OSX, where I develped the `runner.c` but not on the test linux VM until I tweaked `open`'s  `mode` field.  It didn't help that when the socket failed, I initially immediately exited, rather then carried on & printed the output from the subprocess, which would have shown how far it had got.
+
