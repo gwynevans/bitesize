@@ -65,9 +65,21 @@ Basic requirements are to run the program:
 4. Arrange it such that it reads a particular set of bytes from a named file
 5. Arrange it such that it opens and receives a particular set of byes via a network connection to a socket it's listening on
 
-Started off trying an approach using the Python `subprocess` module, which failed at stage 2, where I wasn't able to write to the subprocesses sterr, so switched to C, using fork/exec (then execve).  Hit a few issues working out what was going on, as I thought I was having network problems but it turned out that my actual issue was with the permissions of the file, so the subprocess was terminating earlier than I was expecting...
-Particular issues were that this worked happily enough on OSX, where I develped the `runner.c` but not on the test linux VM until I tweaked `open`'s  `mode` field.  It didn't help that when the socket failed, I initially immediately exited, rather then carried on & printed the output from the subprocess, which would have shown how far it had got.
+Started off trying an approach using the Python `subprocess` module, which failed at stage 2, where I wasn't able to write to the subprocesses stderr, so switched to C, using fork/exec (then execve).  Hit a few issues working out what was going on, as I thought I was having network problems but it turned out that my actual issue was with the permissions of the file, so the subprocess was terminating earlier than I was expecting...
+Particular issues were that this worked happily enough on OSX, where I developed the `runner.c` but not on the test linux VM until I tweaked `open`'s  `mode` field.  It didn't help that when the socket failed, I initially immediately exited, rather then carried on & printed the output from the subprocess, which would have shown how far it had got.
 
 ### [leg]
 
 This is an ARM decoding challenge - you need to work out and provide the value that will be produced by summing the 3 calls to ARM-assembly subroutines.
+
+Not yet attempted
+
+### [shellshock]
+
+This involves the `shellshock` bug & we're supplied via a vulnerable version of `bash` and a program to exercise the bug.  The important part here is to realise that the bug was that if there was a specially crafted environment variable (containing an exported function definition, followed by trailing commands), `bash` would execute the command when importing the function. So...
+
+1. Create a function in the current environment, e.g. "export x='() { :;}; /bin/cat flag'"
+2. Run the supplied `./shellshock` program (which sets uid/gid then execute bash, triggering the bug)
+3. PROFIT
+
+ 
