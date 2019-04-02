@@ -16,7 +16,7 @@
 \- Current score of 4885 with all but 4 before `"now you don't"` completed.
 * [Pwnable.tw](http://pwnable.tw/) (Squares) 
 \- Account created but nothing done yet
-* [Pwnable.kr](http://pwnable.kr/) (Pictures) - [Notes/Reminders](CTF/PwnableKr.md)   
+* [Pwnable.kr](http://pwnable.kr/) (Pictures) - [Notes/Reminders/Spoilers](CTF/PwnableKr.md)   
 \- Account created but only 6 challenges completed as yet
 \- Four categories of challenges
     1. [Toddler's Bottle]  -  very easy challenges with simple mistakes.
@@ -29,8 +29,8 @@
     1. [Bandit](http://overthewire.org/wargames/bandit/) - 34 levels aimed at absolute beginners. It will teach the basics needed to be able to play other wargames.
     1. Leviathan (*This wargame doesn't require any knowledge about programming - just a bit of common
 sense and some knowledge about basic \*nix commands*) or Natas (*teaches the basics of serverside web-security*) or Krypton
-    1. Narnia (*for the ones that want to learn basic exploitation. You can see the most
-common bugs in this game and we've tried to make them easy to exploit.*)  
+    1. [Narnia](http://overthewire.org/wargames/narnia/) - [Notes/Reminders/Spoilers](CTF/Narnia.md) 
+	- (*for the ones that want to learn basic exploitation. You can see the most common bugs in this game and we've tried to make them easy to exploit.*)  
 \- Difficulty: 2/10,  Levels: 10
     1. Behemoth (*This wargame deals with a lot of regular vulnerabilities found commonly 'out in the wild'. While the game makes no attempts at emulating a real environment
 it will teach you how to exploit several of the most common coding mistakes including buffer overflows, race conditions and privilege escalation.*)  
